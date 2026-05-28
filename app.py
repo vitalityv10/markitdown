@@ -12,9 +12,6 @@ from markitdown import (
     FileConversionException
 )
 
-# ---------------------------------------------------------
-# Page Configurations & Styling
-# ---------------------------------------------------------
 st.set_page_config(
     page_title="MarkItDown Studio",
     page_icon="📝",
@@ -22,10 +19,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Premium custom CSS styling
 st.markdown("""
 <style>
-/* Typography & Clean modern look */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 html, body {
@@ -36,9 +31,8 @@ h1, h2, h3, h4 {
     font-family: 'Outfit', sans-serif;
 }
 
-/* Gradient Title */
 .main-title {
-    background: linear-gradient(135deg, #8A2BE2 0%, #A076F9 50%, #00F2FE 100%);
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
@@ -50,30 +44,27 @@ h1, h2, h3, h4 {
 
 .subtitle {
     text-align: center;
-    color: #8A99AD;
+    color: var(--text-color);
+    opacity: 0.7;
     font-size: 1.1rem;
     margin-bottom: 2rem;
     font-weight: 300;
 }
 
-/* Premium Card / Container Style */
 .glass-card {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--secondary-background-color);
+    border: 1px solid rgba(128, 128, 128, 0.1);
     border-radius: 16px;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
 }
 
-/* Metrics Section */
 .metrics-row {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background: rgba(160, 118, 249, 0.05);
-    border: 1px solid rgba(160, 118, 249, 0.15);
+    background: var(--secondary-background-color);
+    border: 1px solid rgba(124, 58, 237, 0.2);
     border-radius: 12px;
     padding: 1rem;
     margin: 1rem 0;
@@ -87,51 +78,52 @@ h1, h2, h3, h4 {
 .metric-num {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #00F2FE;
+    color: #7c3aed;
 }
 
 .metric-label {
     font-size: 0.75rem;
-    color: #8A99AD;
+    color: var(--text-color);
+    opacity: 0.7;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-top: 0.2rem;
 }
 
-/* Action button glow effects */
 .stButton>button {
-    background: linear-gradient(135deg, #A076F9 0%, #6F38C5 100%) !important;
+    background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%) !important;
     color: white !important;
     border: none !important;
     border-radius: 8px !important;
     font-weight: 600 !important;
     transition: all 0.2s ease !important;
-    box-shadow: 0 4px 12px rgba(160, 118, 249, 0.2) !important;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2) !important;
 }
 
 .stButton>button:hover {
     transform: translateY(-1px) !important;
-    box-shadow: 0 6px 18px rgba(160, 118, 249, 0.3) !important;
+    box-shadow: 0 6px 18px rgba(124, 58, 237, 0.3) !important;
 }
 
-/* Tab Active Accent colors */
 div[data-baseweb="tab-list"] {
     background-color: transparent;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
     margin-bottom: 1.5rem;
 }
 
 button[data-baseweb="tab"] {
     font-family: 'Outfit', sans-serif;
-    color: #8A99AD !important;
+    color: var(--text-color) !important;
+    opacity: 0.6;
     font-size: 1rem !important;
     padding: 0.8rem 1.5rem !important;
 }
 
 button[data-baseweb="tab"][aria-selected="true"] {
-    color: #00F2FE !important;
-    border-bottom-color: #00F2FE !important;
+    color: #7c3aed !important;
+    border-bottom-color: #7c3aed !important;
     font-weight: 600 !important;
+    opacity: 1;
 }
 
 .success-banner {
@@ -146,27 +138,19 @@ button[data-baseweb="tab"][aria-selected="true"] {
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# Session State Initialization
-# ---------------------------------------------------------
 if "results" not in st.session_state:
     st.session_state.results = {}
 if "selected_key" not in st.session_state:
     st.session_state.selected_key = None
 
-# ---------------------------------------------------------
-# Sidebar Configurations
-# ---------------------------------------------------------
-st.sidebar.markdown('<div style="font-size: 1.6rem; font-weight: 700; background: linear-gradient(135deg, #A076F9 0%, #00F2FE 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: \'Outfit\'; margin-bottom: 1.5rem;">⚙️ Configurations</div>', unsafe_allow_html=True)
+st.sidebar.markdown('<div style="font-size: 1.6rem; font-weight: 700; background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: \'Outfit\'; margin-bottom: 1.5rem;">⚙️ Configurations</div>', unsafe_allow_html=True)
 
-# General settings
 st.sidebar.subheader("🔌 Plugins & Base")
-enable_plugins = st.sidebar.checkbox("Enable 3rd-party Plugins", value=False, help="Enable extension converters loaded via entry points")
+enable_plugins = st.sidebar.checkbox("Enable 3rd-party Plugins", value=False)
 
-# LLM Image description options
 st.sidebar.markdown("---")
 st.sidebar.subheader("🤖 LLM Enrichment (Vision & OCR)")
-enable_llm = st.sidebar.checkbox("Enable LLM Descriptions", value=False, help="Use a Multimodal LLM to describe images and extract text from embedded pictures.")
+enable_llm = st.sidebar.checkbox("Enable LLM Descriptions", value=False)
 
 openai_api_key = ""
 openai_endpoint = ""
@@ -174,15 +158,14 @@ llm_model = "gpt-4o"
 llm_prompt = ""
 
 if enable_llm:
-    openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password", help="Provide your OpenAI or compatible API key")
-    openai_endpoint = st.sidebar.text_input("Custom Endpoint (Optional)", placeholder="https://api.openai.com/v1", help="Custom OpenAI-compatible base URL")
-    llm_model = st.sidebar.text_input("Model Name", value="gpt-4o", help="Model identifier to use (e.g. gpt-4o, gpt-4o-mini)")
-    llm_prompt = st.sidebar.text_area("Custom System Prompt (Optional)", value="", placeholder="e.g. Describe this image in detail.", help="Custom instructions passed to the LLM for describing images.")
+    openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
+    openai_endpoint = st.sidebar.text_input("Custom Endpoint (Optional)", placeholder="https://api.openai.com/v1")
+    llm_model = st.sidebar.text_input("Model Name", value="gpt-4o")
+    llm_prompt = st.sidebar.text_area("Custom System Prompt (Optional)", value="", placeholder="e.g. Describe this image in detail.")
 
-# Azure DocIntel options
 st.sidebar.markdown("---")
 st.sidebar.subheader("☁️ Azure Document Intelligence")
-enable_docintel = st.sidebar.checkbox("Use Azure DocIntel", value=False, help="Use Azure AI Document Intelligence for layout analysis and high-quality PDF/Office conversions")
+enable_docintel = st.sidebar.checkbox("Use Azure DocIntel", value=False)
 
 docintel_endpoint = ""
 docintel_key = ""
@@ -191,10 +174,9 @@ if enable_docintel:
     docintel_endpoint = st.sidebar.text_input("DocIntel Endpoint", placeholder="https://<region>.api.cognitive.microsoft.com/")
     docintel_key = st.sidebar.text_input("DocIntel API Key", type="password")
 
-# Azure Content Understanding options
 st.sidebar.markdown("---")
 st.sidebar.subheader("🔮 Azure Content Understanding")
-enable_cu = st.sidebar.checkbox("Use Content Understanding", value=False, help="Use Azure Content Understanding for advanced multi-modal extraction (audio, video, structured YAML front matter)")
+enable_cu = st.sidebar.checkbox("Use Content Understanding", value=False)
 
 cu_endpoint = ""
 cu_key = ""
@@ -203,21 +185,14 @@ cu_analyzer_id = ""
 if enable_cu:
     cu_endpoint = st.sidebar.text_input("CU Endpoint", placeholder="https://<region>.api.cognitive.microsoft.com/")
     cu_key = st.sidebar.text_input("CU API Key", type="password")
-    cu_analyzer_id = st.sidebar.text_input("Analyzer ID (Optional)", placeholder="prebuilt-documentSearch", help="Target analyzer ID to configure")
+    cu_analyzer_id = st.sidebar.text_input("Analyzer ID (Optional)", placeholder="prebuilt-documentSearch")
 
-# ---------------------------------------------------------
-# Main Page Header
-# ---------------------------------------------------------
 st.markdown('<div class="main-title">MarkItDown Studio</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Convert any document, image, audio, or web URL into pristine Markdown for LLM ingestion</div>', unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# MarkItDown Initialization Function
-# ---------------------------------------------------------
 def get_markitdown_instance():
     kwargs = {}
     
-    # Configure LLM Client if enabled
     if enable_llm:
         if not openai_api_key:
             st.warning("LLM is enabled but no OpenAI API Key was provided. Image descriptions will be skipped unless default environment variables are set.")
@@ -231,13 +206,11 @@ def get_markitdown_instance():
             if llm_prompt:
                 kwargs["llm_prompt"] = llm_prompt
 
-    # Configure Azure Document Intelligence
     if enable_docintel and docintel_endpoint:
         kwargs["docintel_endpoint"] = docintel_endpoint
         if docintel_key:
             kwargs["docintel_credential"] = docintel_key
 
-    # Configure Azure Content Understanding
     if enable_cu and cu_endpoint:
         kwargs["cu_endpoint"] = cu_endpoint
         if cu_key:
@@ -247,23 +220,19 @@ def get_markitdown_instance():
 
     return MarkItDown(enable_plugins=enable_plugins, **kwargs)
 
-# ---------------------------------------------------------
-# Layout Tabs
-# ---------------------------------------------------------
 tab_file, tab_url, tab_info = st.tabs(["📁 File Converter", "🔗 URL / YouTube Converter", "ℹ️ Supported Formats"])
 
-# Tab 1: File Converter
 with tab_file:
     st.markdown('<p style="font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Upload files for conversion</p>', unsafe_allow_html=True)
     uploaded_files = st.file_uploader(
         "Choose files",
-        type=None, # Allow all types, let markitdown handle them
+        type=None,
         accept_multiple_files=True,
         label_visibility="collapsed"
     )
 
     if uploaded_files:
-        st.markdown(f"<div style='margin-bottom: 1rem; color: #8A99AD;'>{len(uploaded_files)} file(s) staged.</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='margin-bottom: 1rem; color: var(--text-color); opacity: 0.7;'>{len(uploaded_files)} file(s) staged.</div>", unsafe_allow_html=True)
         col1, col2 = st.columns([1, 4])
         with col1:
             convert_btn = st.button("Convert All Files", key="btn_convert_files")
@@ -273,7 +242,6 @@ with tab_file:
             progress_bar = st.progress(0)
             status_text = st.empty()
             
-            # Reset results for this batch
             st.session_state.results = {}
             
             for idx, uploaded_file in enumerate(uploaded_files):
@@ -282,19 +250,16 @@ with tab_file:
                 start_time = time.time()
                 
                 try:
-                    # Get extension
                     file_ext = os.path.splitext(filename)[1].lower()
                     stream_info = StreamInfo(
                         filename=filename,
                         extension=file_ext
                     )
                     
-                    # Run conversion on stream
                     uploaded_file.seek(0)
                     conversion_result = md.convert(uploaded_file, stream_info=stream_info)
                     duration = time.time() - start_time
                     
-                    # Store results
                     st.session_state.results[filename] = {
                         "content": conversion_result.text_content,
                         "status": "success",
@@ -313,14 +278,12 @@ with tab_file:
                         "duration": duration
                     }
                 
-                # Update progress
                 progress_bar.progress((idx + 1) / len(uploaded_files))
             
             status_text.empty()
             progress_bar.empty()
             st.toast("Batch conversion complete!", icon="✅")
 
-# Tab 2: URL Converter
 with tab_url:
     st.markdown('<p style="font-size: 1.1rem; font-weight: 500; margin-bottom: 0.5rem;">Enter a web URL, RSS feed, or YouTube video link</p>', unsafe_allow_html=True)
     target_url = st.text_input("Target URL", placeholder="https://example.com/document.pdf or https://www.youtube.com/watch?v=...")
@@ -334,7 +297,7 @@ with tab_url:
         if convert_url_btn:
             md = get_markitdown_instance()
             start_time = time.time()
-            st.session_state.results = {} # Reset
+            st.session_state.results = {}
             
             with st.spinner("Fetching and converting URL..."):
                 try:
@@ -360,7 +323,6 @@ with tab_url:
                     }
                     st.error(f"Failed to convert URL: {e}")
 
-# Tab 3: Help / Info
 with tab_info:
     st.markdown("""
     ### 📂 Supported File Types & Integration Methods
@@ -385,17 +347,12 @@ with tab_info:
     - **Azure Content Understanding**: Ideal for complex multi-modal audio/video analyzes or domain-specific field parsing (invoices, calls).
     """)
 
-# ---------------------------------------------------------
-# Display Conversion Results
-# ---------------------------------------------------------
 if st.session_state.results:
     st.markdown("---")
     st.markdown("### 📊 Conversion Results")
     
-    # Dropdown to choose which file result to inspect
     result_keys = list(st.session_state.results.keys())
     
-    # If selected_key is not set or not in current keys, default to the first one
     if st.session_state.selected_key not in result_keys:
         st.session_state.selected_key = result_keys[0]
         
@@ -405,18 +362,17 @@ if st.session_state.results:
     res = st.session_state.results[selected_file]
     
     if res["status"] == "success":
-        # Stats Display Box
         st.markdown(f"""
         <div class="metrics-row">
             <div class="metric-box">
                 <div class="metric-num">{res['char_count']:,}</div>
                 <div class="metric-label">Characters</div>
             </div>
-            <div class="metric-box" style="border-left: 1px solid rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.1);">
+            <div class="metric-box" style="border-left: 1px solid rgba(128,128,128,0.2); border-right: 1px solid rgba(128,128,128,0.2);">
                 <div class="metric-num">{res['word_count']:,}</div>
                 <div class="metric-label">Words</div>
             </div>
-            <div class="metric-box" style="border-right: 1px solid rgba(255,255,255,0.1);">
+            <div class="metric-box" style="border-right: 1px solid rgba(128,128,128,0.2);">
                 <div class="metric-num">{res['size']/1024:.2f} KB</div>
                 <div class="metric-label">Input Size</div>
             </div>
@@ -427,7 +383,6 @@ if st.session_state.results:
         </div>
         """, unsafe_allow_html=True)
         
-        # Download and utility actions
         col_a1, col_a2, col_a3 = st.columns([2, 2, 4])
         with col_a1:
             st.download_button(
@@ -439,10 +394,8 @@ if st.session_state.results:
             )
             
         with col_a2:
-            # Batch zip download option if multiple successes
             success_files = {k: v for k, v in st.session_state.results.items() if v["status"] == "success"}
             if len(success_files) > 1:
-                # Create a zip of all files
                 zip_buffer = io.BytesIO()
                 with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED, False) as zip_file:
                     for fname, fdata in success_files.items():
@@ -457,7 +410,6 @@ if st.session_state.results:
                     key="dl_batch_zip"
                 )
         
-        # Excerpt Preview (safe, truncated to prevent page hanging)
         preview_limit = 1500
         content_len = len(res["content"])
         
@@ -470,7 +422,6 @@ if st.session_state.results:
             st.code(preview_text, language="markdown")
             
     else:
-        # Error display
         st.error(f"Failed to convert: {res['error_msg']}")
         with st.expander("View Error Traceback"):
             st.code(res["trace"])
