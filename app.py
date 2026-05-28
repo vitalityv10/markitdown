@@ -104,16 +104,14 @@ h1, h2, h3, h4 {
     color: white !important;
     border: none !important;
     border-radius: 8px !important;
-    padding: 0.6rem 2rem !important;
     font-weight: 600 !important;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-    box-shadow: 0 4px 15px rgba(160, 118, 249, 0.25) !important;
-    width: 100%;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 4px 12px rgba(160, 118, 249, 0.2) !important;
 }
 
 .stButton>button:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 8px 25px rgba(160, 118, 249, 0.45) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(160, 118, 249, 0.3) !important;
 }
 
 /* Tab Active Accent colors */
@@ -459,17 +457,17 @@ if st.session_state.results:
                     key="dl_batch_zip"
                 )
         
-        # Preview Tabs
-        tab_preview, tab_raw = st.tabs(["👁️ Rendered Preview", "📄 Raw Markdown"])
+        # Excerpt Preview (safe, truncated to prevent page hanging)
+        preview_limit = 1500
+        content_len = len(res["content"])
         
-        with tab_preview:
-            # Rendered preview container
-            st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-            st.markdown(res["content"])
-            st.markdown('</div>', unsafe_allow_html=True)
+        with st.expander("🔍 Preview Excerpt (First 1,500 characters only)", expanded=True):
+            if content_len > preview_limit:
+                preview_text = res["content"][:preview_limit] + "\n\n...\n\n[Preview truncated. Please download the file to view the full converted content.]"
+            else:
+                preview_text = res["content"]
             
-        with tab_raw:
-            st.code(res["content"], language="markdown")
+            st.code(preview_text, language="markdown")
             
     else:
         # Error display
