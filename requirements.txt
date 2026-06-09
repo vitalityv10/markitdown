@@ -1,3 +1,5 @@
 streamlit
 openai
+fastapi
+uvicorn
 -e ./packages/markitdown[all]
