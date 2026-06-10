@@ -1,0 +1,4 @@
+fastapi
+python-multipart
+uvicorn
+git+https://github.com/microsoft/markitdown.git@main
